@@ -1,0 +1,26 @@
+
+button.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+blue_button
+  rotate: false
+  xy: 1, 76
+  size: 532, 109
+  orig: 532, 109
+  offset: 0, 0
+  index: -1
+button.up
+  rotate: false
+  xy: 1, 1
+  size: 256, 73
+  orig: 256, 73
+  offset: 0, 0
+  index: -1
+button.down
+  rotate: false
+  xy: 535, 121
+  size: 256, 64
+  orig: 256, 64
+  offset: 0, 0
+  index: -1
