@@ -135,5 +135,20 @@ public class GameBoard implements Screen{
 		
 		return result;
 	}
+	
+	Array<MyButton> getCubes(){
+		Array<MyButton> result=new Array<MyButton>();
+		//style------------
+				TextureAtlas buttonTextureAtlas = new TextureAtlas("grill/grill.pack");
+				Skin buttonSkin = new Skin(buttonTextureAtlas);
+				ButtonStyle buttonStyle;
+				MyButton temp;
+				ChangeListener cListener;
+				int y=0;
+				int x=0;
+				//---------------------------
+		
+		return result;
+	}
 
 }
