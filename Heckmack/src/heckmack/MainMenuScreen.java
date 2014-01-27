@@ -55,7 +55,7 @@ public class MainMenuScreen implements Screen {
 	    ChangeListener cListener2 = new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-				game.setScreen(new GameBoard(game));
+				game.setScreen(new GameBoard(game,2));
 				dispose();		
 			}
 		    };
@@ -108,7 +108,6 @@ public class MainMenuScreen implements Screen {
 	    
 	    stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
-
 		camera.update();		
 		
 	}

@@ -1,9 +1,11 @@
 package heckmack;
 
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -16,10 +18,14 @@ public class GameBoard implements Screen{
 	GameStart game;
 	Stage stage;
 	OrthographicCamera camera;
+	TextureAtlas buttonTextureAtlas;
+	TextureAtlas cubesTextureAtlas;
 	Array<MyButton> grill;
 	Array<MyButton> kocky;
+	Array<MyButton> playerCubes;
+	Array<Player> hraci;
 	
-	public GameBoard(GameStart gam){
+	public GameBoard(GameStart gam, int numP){
 		game=gam;
 		
 		camera = new OrthographicCamera();
@@ -29,25 +35,43 @@ public class GameBoard implements Screen{
 		stage.clear();
 	    Gdx.input.setInputProcessor(stage);
 	    
-	   grill = this.createGrill();
+	    buttonTextureAtlas = new TextureAtlas("grill/grill.pack");
+	    cubesTextureAtlas = new TextureAtlas("cubes/cube.pack");
+	    
+	    grill = this.getGrill();
 	    
 	    for(int i=0;i<grill.size;i++){
 	    	stage.addActor(grill.get(i));
 	    }
 	    
+	    kocky= this.getCubes();
+	    for(int i=0;i<kocky.size;i++){
+	    	stage.addActor(kocky.get(i));
+	    }
 	    
+	    hraci= new Array<Player>();
+	    for(int i=0;i<numP;i++){
+	    	hraci.add(new Player(this, i));
+	    }
 	    
 	}
 
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClearColor(0, 0.4f, 1, 1);
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+			for(int i=0;i<hraci.size;i++){
+				Gdx.gl.glClearColor(0, 0.4f, 1, 1);
+				Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+				
+				BitmapFont f=new BitmapFont();
+				game.batch.begin();
+				f.draw(game.batch, "Na rade je : "+Integer.toString(i), 20, 120);
+				game.batch.end();
+				
+				stage.act(Gdx.graphics.getDeltaTime());
+				stage.draw();
 		
-		stage.act(Gdx.graphics.getDeltaTime());
-		stage.draw();
-
-		camera.update();
+				camera.update();
+			}
 		
 	}
 
@@ -87,10 +111,9 @@ public class GameBoard implements Screen{
 	}
 	
 	
-	Array<MyButton> createGrill(){
+	Array<MyButton> getGrill(){
 		Array<MyButton> result=new Array<MyButton>();
 		//style------------
-		TextureAtlas buttonTextureAtlas = new TextureAtlas("grill/grill.pack");
 		Skin buttonSkin = new Skin(buttonTextureAtlas);
 		ButtonStyle buttonStyle;
 		MyButton temp;
@@ -103,7 +126,7 @@ public class GameBoard implements Screen{
 			buttonStyle= new ButtonStyle();
 			buttonStyle.up= buttonSkin.getDrawable(Integer.toString(i));
 			buttonStyle.down= buttonSkin.getDrawable(Integer.toString(i));
-			buttonStyle.checked= buttonSkin.getDrawable(Integer.toString(i));
+			buttonStyle.checked= buttonSkin.getDrawable("empty");
 			buttonStyle.pressedOffsetX = 1;
 			buttonStyle.pressedOffsetY = -1;
 			temp=new MyButton(i,buttonStyle);
@@ -122,9 +145,12 @@ public class GameBoard implements Screen{
 				public void changed(ChangeEvent event, Actor actor) {
 					if(((MyButton) actor).isBlocked()){
 							System.out.println("BLOCKED !"+Integer.toString(((MyButton) actor).getValue()));
+							((MyButton)actor).setChecked(true);
+							((MyButton)actor).setFree();
 						}
 					else{
 						System.out.println("DONE BITCH");
+						((MyButton)actor).setBlocked();
 					}
 				}
 			};
@@ -139,14 +165,27 @@ public class GameBoard implements Screen{
 	Array<MyButton> getCubes(){
 		Array<MyButton> result=new Array<MyButton>();
 		//style------------
-				TextureAtlas buttonTextureAtlas = new TextureAtlas("grill/grill.pack");
-				Skin buttonSkin = new Skin(buttonTextureAtlas);
-				ButtonStyle buttonStyle;
-				MyButton temp;
-				ChangeListener cListener;
-				int y=0;
-				int x=0;
-				//---------------------------
+			Skin buttonSkin = new Skin(cubesTextureAtlas);
+			ButtonStyle buttonStyle;
+			MyButton temp;
+			//ChangeListener cListener;
+			int x=0;
+		//---------------------------
+		
+		for(int i=0;i<7;i++){
+			buttonStyle= new ButtonStyle();
+			buttonStyle.up= buttonSkin.getDrawable(Integer.toString(i));
+			buttonStyle.down= buttonSkin.getDrawable(Integer.toString(i));
+			buttonStyle.checked= buttonSkin.getDrawable(Integer.toString(i));
+			buttonStyle.pressedOffsetX = 1;
+			buttonStyle.pressedOffsetY = -1;
+			temp=new MyButton(i,buttonStyle);
+			temp.setWidth(64);
+			temp.setHeight(64);
+			temp.setPosition(120+x, 120);
+			x+=70;
+			result.add(temp);
+		}
 		
 		return result;
 	}
