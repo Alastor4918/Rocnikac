@@ -37,6 +37,7 @@ public class GameBoard implements Screen{
 	
 	
 	public GameBoard(GameStart gam, int numP){
+		//-----BASE-----------------
 		game=gam;
 		
 		camera = new OrthographicCamera();
@@ -50,15 +51,14 @@ public class GameBoard implements Screen{
 	    for(int i=0;i<7;i++){
 	    	pickedN.add(false);
 	    }
-	    //---------------
+	    //---------------HRACI-----------------
 	    playersTopStones=new Array<MyButton>();
 	    hraci= new Array<Player>();
 	    for(int i=0;i<numP;i++){
 	    	hraci.add(new Player(this, i, i*145));
 	    	playersTopStones.add(hraci.get(i).getTop());
 	    }
-	    //--------------
-	    
+	    //--------------HRACOVE KOCKY---------------
 	    onMove=0;
 	    playerCubes=new Array<MyButton>();
 		int y=0;
@@ -69,7 +69,7 @@ public class GameBoard implements Screen{
 			playerCubes.get(i).setPosition(120+y, 36);
 			y+=70;
 		}
-	    
+	    //--------------BUTTON PRE HADZ A SKONCI-----------
 	    TextButtonStyle s= game.getButtonStyle();
 	    ChangeListener cListener = new ChangeListener() {
 		@Override
@@ -91,12 +91,13 @@ public class GameBoard implements Screen{
 	    TextButton skonci = game.createButton("End Turn", s, 50, 100, stener) ;   
 	    
 	    
-	    
+	    //------------GRILL IDE NA STAGE -------------------
 	    for(int i=0;i<grill.size;i++){
 	    	stage.addActor(grill.get(i));
 	    }
-	    
+	    //------------TVORBA PREDLOHY PRE KOCKY
 	    kocky= this.getCubes();
+	    //------------KOCKY NA HADZANIE-------------
 	    hodeneKocky=new Array<MyButton>();
 	    ChangeListener listener= new ChangeListener() {
 			@Override
@@ -126,14 +127,14 @@ public class GameBoard implements Screen{
 			hodeneKocky.get(i).addListener(listener);
 			y+=70;
 	    }
-	    
+	    //-----------------KOCKY IDU NA STAGE--------------
 	    shuffle(0);
 	    for(int i=0;i<hodeneKocky.size;i++){
 	    	stage.addActor(hodeneKocky.get(i));
 	    }
 	    
 	    
-	    
+	    //----------------UMIESTNENIE BUTTONOV+HRACOVYCH KOCIEK+VRCHNE KAMENE+ HODENIE NA STAGE----------------
 	    hod.setPosition(690, 130);
 	    skonci.setPosition(690, 85);
 	    stage.addActor(hod);
@@ -161,7 +162,7 @@ public class GameBoard implements Screen{
 			f.draw(game.batch, "My top:", 700, 410);
 			f.draw(game.batch, "Player 1:", 20, 470);
 			f.draw(game.batch, "Player 2:", 20, 325);
-			//f.draw(game.batch, "Player 3:", 20, 170);
+			//f.draw(game.batch, "Player 3:", 20, 170); zatial nic
 			f.draw(game.batch,"Sum : "+ hraci.get(onMove).getSum(), 700, 80);
 			game.batch.end();
 				
