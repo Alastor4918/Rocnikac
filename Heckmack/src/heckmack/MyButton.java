@@ -25,6 +25,10 @@ public class MyButton extends Button{
 		return value;
 	}
 	
+	public void setValue(int x){
+		value=x;
+	}
+	
 	public boolean isBlocked(){
 		return blocked;		
 	}
