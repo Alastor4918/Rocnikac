@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 public class MainMenuScreen implements Screen {
 
-	GameStart game;
+	Heckmeck game;
 
 	OrthographicCamera camera;
 	
@@ -24,7 +24,7 @@ public class MainMenuScreen implements Screen {
 	TextureRegion logo2,background;
 	
 	
-	public MainMenuScreen(GameStart gam) {
+	public MainMenuScreen(Heckmeck gam) {
 		game = gam;
 
 		camera = new OrthographicCamera();
@@ -55,7 +55,9 @@ public class MainMenuScreen implements Screen {
 	    ChangeListener cListener2 = new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-				game.setScreen(new GameBoard(game,2));
+				game.board.pocetHracov=2;
+				game.board.preparePlayers();
+				game.setScreen(new PlayGround(game, game.stage));
 				dispose();		
 			}
 		    };
@@ -145,6 +147,7 @@ public class MainMenuScreen implements Screen {
 	@Override
 	public void dispose() {
 		stage.dispose();
+		
 	}
 
 

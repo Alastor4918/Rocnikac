@@ -8,16 +8,11 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 
 
 public class Intro implements Screen {
 
-	final GameStart game;
+	Heckmeck game;
 
 	OrthographicCamera camera;
 	
@@ -27,8 +22,8 @@ public class Intro implements Screen {
 	
 	BitmapFont font;
 
-	public Intro(final GameStart gam) {
-		game = gam;
+	public Intro(Heckmeck gam) {
+		game=gam;
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 800, 480);
