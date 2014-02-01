@@ -8,8 +8,8 @@ import com.badlogic.gdx.utils.Array;
 
 public class Player {
 	private Heckmeck game;
-	private int ID,sum,score,highest;
-	public int picked;
+	private int ID,sum,highest;
+	public int picked,score;
 	private MyButton topStone;
 	private Array<Integer>  myStones;
 	
@@ -37,18 +37,27 @@ public class Player {
 		return myStones;
 	}
 	
-	public int getScore(){
-		for(int i=0;i<myStones.size;i++){
-			if(myStones.get(i)<25)
+	public void getScore(int x){
+			if(x<25)
 				score+=1;
-			else if(myStones.get(i)<29)
+			else if(x<29)
 				score+=2;
-			else if(myStones.get(i)<32)
+			else if(x<32)
 				score+=3;
 			else
 				score+=4;
-		}
-		return score;
+	}
+	
+	public void reduceScore(int x){
+		if(x<25)
+			score-=1;
+		else if(x<29)
+			score-=2;
+		else if(x<32)
+			score-=3;
+		else
+			score-=4;
+		
 	}
 	
 	public int getHighest(){
@@ -61,6 +70,7 @@ public class Player {
 		myStones.add(s.getValue());
 		topStone.setValue(s.getValue());
 		topStone.setStyle(s.getStyle());
+		getScore(s.getValue());
 	}
 	
 	public void addCubes(MyButton c, int number){
@@ -94,6 +104,7 @@ public class Player {
 	
 	private void changeTopStone(){
 		if(myStones.size!=0){
+			reduceScore(myStones.peek());
 			myStones.pop();
 			if(myStones.size!=0){
 				topStone.setValue(myStones.get(myStones.size-1));
