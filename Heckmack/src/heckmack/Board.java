@@ -41,8 +41,8 @@ public class Board {
 			return false;
 	}
 	
-	public boolean verifyT(int x){
-		if(hraci.get(onMove).getID() != onMove && x == hraci.get(onMove).getSum() && game.kocky.pickedN.get(6)==true)
+	public boolean verifyT(int x, int id){
+		if(hraci.get(id).getID() != onMove && x == hraci.get(onMove).getSum() && game.kocky.pickedN.get(6)==true)
 			return true;
 		else
 			return false;

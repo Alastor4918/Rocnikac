@@ -8,16 +8,16 @@ import com.badlogic.gdx.utils.Array;
 
 public class Player {
 	private Heckmeck game;
-	private int ID,sum;
+	private int ID,sum,score,highest;
 	public int picked;
 	private MyButton topStone;
-	private Array<MyButton>  myStones;
+	private Array<Integer>  myStones;
 	
 	public Player(Heckmeck g,int id,int posun){
 		game=g;
 		ID=id;
-		picked=sum=0;
-		myStones= new Array<MyButton>();
+		picked=sum=score=highest=0;
+		myStones= new Array<Integer>();
 		getTopStone(posun);
 	}
 	
@@ -33,13 +33,32 @@ public class Player {
 		return topStone;
 	}
 	
-	public Array<MyButton> getStones(){
+	public Array<Integer> getStones(){
 		return myStones;
+	}
+	
+	public int getScore(){
+		for(int i=0;i<myStones.size;i++){
+			if(myStones.get(i)<25)
+				score+=1;
+			else if(myStones.get(i)<29)
+				score+=2;
+			else if(myStones.get(i)<32)
+				score+=3;
+			else
+				score+=4;
+		}
+		return score;
+	}
+	
+	public int getHighest(){
+		myStones.sort();
+		return myStones.pop();
 	}
 	
 	
 	public void addStone(MyButton s){
-		myStones.add(s);
+		myStones.add(s.getValue());
 		topStone.setValue(s.getValue());
 		topStone.setStyle(s.getStyle());
 	}
@@ -66,28 +85,24 @@ public class Player {
 	
 	public void failedMove(){
 		if(myStones.size!=0){
-			if(topStone.getValue() == 36){
-				changeTopStone();
-				game.grill.otoc(36);
-			}
-			else{
 				game.grill.otoc(topStone.getValue());
-				game.grill.blockBiggest();
+				game.grill.blockBiggest(topStone.getValue());
 				changeTopStone();
-			}
 		}
 		
 	}
 	
 	private void changeTopStone(){
-		myStones.removeIndex(myStones.size-1);
 		if(myStones.size!=0){
-			topStone.setValue(myStones.get(myStones.size-1).getValue());
-			topStone.setStyle(myStones.get(myStones.size-1).getStyle());
-		}
-		else{
-			topStone.setValue(0);
-			topStone.setStyle(game.grill.empty.getStyle());
+			myStones.pop();
+			if(myStones.size!=0){
+				topStone.setValue(myStones.get(myStones.size-1));
+				topStone.setStyle(game.grill.grillStyle.get(topStone.getValue()-21));
+			}
+			else{
+				topStone.setValue(0);
+				topStone.setStyle(game.grill.empty.getStyle());
+			}
 		}
 	}
 	
@@ -96,7 +111,7 @@ public class Player {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
 				if(myStones.size!=0){
-						if(game.board.verifyT(((MyButton)actor).getValue())){
+						if(game.board.verifyT(((MyButton)actor).getValue(), getID() )){
 							game.board.hraci.get(game.board.onMove).addStone(((MyButton)actor));
 							changeTopStone();
 							game.board.nextOne();

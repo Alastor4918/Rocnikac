@@ -22,6 +22,7 @@ public class PlayGround implements Screen {
 		stage.draw();
 		if(game.getEnd()){
 			System.out.println("This is the end...");
+			game.setScreen(new EndingScreen(game));
 		}
 	}
 

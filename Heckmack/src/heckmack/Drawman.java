@@ -36,7 +36,7 @@ public void draw(){
 	
 	BitmapFont f= new BitmapFont();
 	game.batch.begin();
-	f.draw(game.batch,"On move : "+ Integer.toString(game.board.onMove), 700, 440);
+	f.draw(game.batch,"On move : "+ Integer.toString(game.board.onMove+1), 700, 440);
 	f.draw(game.batch, "My top:", 700, 410);
 	f.draw(game.batch, "Player 1:", 20, 470);
 	f.draw(game.batch, "Player 2:", 20, 325);

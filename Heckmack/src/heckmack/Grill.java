@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.BooleanArray;
 public class Grill {
 	Array<MyButton> grill;
 	BooleanArray grillState;
-	private Array<ButtonStyle> grillStyle;
+	Array<ButtonStyle> grillStyle;
 	Heckmeck game;
 	MyButton empty;
 	MyButton back;
@@ -33,14 +33,16 @@ public class Grill {
 		grill.get(x-21).setDisabled(false);
 	}
 	
-	public void blockBiggest(){
+	public void blockBiggest(int x){
 		for(int i=grill.size-1;i>=0;i--){
 			if(!grill.get(i).isDisabled()){
-				grill.get(i).setStyle(back.getStyle());
-				grill.get(i).setDisabled(true);
-				grillState.set(i, true);
-				if(verify()){
-					game.setEnd();
+				if(grill.get(i).getValue()!=x){
+					grill.get(i).setStyle(back.getStyle());
+					grill.get(i).setDisabled(true);
+					grillState.set(i, true);
+					if(verify()){
+						game.setEnd();
+					}
 				}
 				break;
 			}
@@ -82,14 +84,22 @@ public class Grill {
 	}
 	
 	private boolean verify(){
-		boolean result=true;
-		for(int i=21;i<36;i++){
-			if(!grillState.get(i-21)){
-				result=false;
+		boolean result1=true;
+		boolean result2=true;
+		
+		for(int i=0;i<16;i++){
+			if(!grillState.get(i)){
+				result1=false;
 				break;
 			}
 		}
-		return result;
+		for(int i=0;i<16;i++){
+			if(!grill.get(i).isDisabled()){
+				result2=false;
+				break;
+			}
+		}
+		return (result1 || result2);
 	}
 	
 	private void getGrill(){
@@ -103,6 +113,9 @@ public class Grill {
 								game.board.hraci.get(game.board.onMove).addStone(((MyButton)actor));
 								((MyButton)actor).setStyle(empty.getStyle());
 								((MyButton)actor).setDisabled(true);
+								if(game.grill.verify()){
+									game.setEnd();
+								}
 								game.board.nextOne();
 								Drawman.hod.setVisible(true);
 							}
