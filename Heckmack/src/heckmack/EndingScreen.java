@@ -1,5 +1,6 @@
 package heckmack;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
@@ -27,8 +28,7 @@ public class EndingScreen implements Screen {
 		game.batch.end();
 		
 		if (Gdx.input.isTouched()) {
-			game.setScreen(new MainMenuScreen(game));			
-			dispose();
+			Gdx.app.exit();
 		}
 		
 	}

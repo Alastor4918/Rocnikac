@@ -127,6 +127,15 @@ public class Player {
 							changeTopStone();
 							game.board.nextOne();
 							Drawman.hod.setVisible(true);
+							//premazanie highlightu
+							for(MyButton x : game.grill.grill){
+								x.setStyle(game.grill.grillStyle.get(x.getValue()-21));
+								}
+							for(Player x: game.board.hraci){
+								if(x.getTop().getValue()!=0){
+									x.getTop().setStyle(game.grill.grillStyle.get(x.getTop().getValue()-21));
+									}						
+						}
 						}
 						else
 							System.out.println("Nemas dost bodov !");

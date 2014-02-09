@@ -64,6 +64,18 @@ private void getButtons(){
 	    ChangeListener stener = new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
+				//zrusim highlight
+				for(MyButton x : game.grill.grill){
+					if(!x.isDisabled()){
+						x.setStyle(game.grill.grillStyle.get(x.getValue()-21));
+					}
+				}
+				for(Player x: game.board.hraci){
+					if(x.getTop().getValue()!=0){
+						x.getTop().setStyle(game.grill.grillStyle.get(x.getTop().getValue()-21));
+						}						
+				}
+				
 				game.board.hraci.get(game.board.onMove).failedMove();
 				game.board.nextOne();
 				Drawman.hod.setVisible(true);

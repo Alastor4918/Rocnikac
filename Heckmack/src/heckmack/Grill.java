@@ -12,7 +12,8 @@ public class Grill {
 	Array<MyButton> grill;
 	BooleanArray grillState;
 	Array<ButtonStyle> grillStyle;
-	Heckmeck game;
+	Array<ButtonStyle> hlgrillStyle;
+ 	Heckmeck game;
 	MyButton empty;
 	MyButton back;
 	
@@ -20,6 +21,7 @@ public class Grill {
 		game=g;
 		grill=new Array<MyButton>();
 		grillStyle= new Array<ButtonStyle>();
+		hlgrillStyle = new Array<ButtonStyle>();
 		grillState= new BooleanArray();
 		for(int i=0;i<16;i++){
 			grillState.add(false);
@@ -51,7 +53,9 @@ public class Grill {
 	
 	private void getGrillStyle(){
 		TextureAtlas  buttonTextureAtlas = new TextureAtlas("grill/grill.pack");
+		TextureAtlas  hlbuttonTextureAtlas = new TextureAtlas("grill/highlight.pack");
 		Skin buttonSkin = new Skin(buttonTextureAtlas);
+		Skin hlButtonSkin = new Skin(hlbuttonTextureAtlas);
 		ButtonStyle buttonStyle;
 		//------EMPTY ONE------------
 		buttonStyle= new ButtonStyle();
@@ -79,6 +83,16 @@ public class Grill {
 			buttonStyle.pressedOffsetX = 1;
 			buttonStyle.pressedOffsetY = -1;
 			grillStyle.add(buttonStyle);
+			
+			buttonStyle= new ButtonStyle();
+			buttonStyle.up= hlButtonSkin.getDrawable(Integer.toString(i));
+			buttonStyle.down= buttonSkin.getDrawable("empty");
+			buttonStyle.checked= hlButtonSkin.getDrawable(Integer.toString(i));
+			buttonStyle.pressedOffsetX = 1;
+			buttonStyle.pressedOffsetY = -1;
+			hlgrillStyle.add(buttonStyle);
+			
+			
 		}
 		
 	}
@@ -118,6 +132,16 @@ public class Grill {
 								}
 								game.board.nextOne();
 								Drawman.hod.setVisible(true);
+								for(MyButton x : game.grill.grill){
+									if(!x.isDisabled()){
+									x.setStyle(game.grill.grillStyle.get(x.getValue()-21));
+									}
+									}
+								for(Player x: game.board.hraci){
+									if(x.getTop().getValue()!=0){
+										x.getTop().setStyle(game.grill.grillStyle.get(x.getTop().getValue()-21));
+										}						
+							}
 							}
 							else
 								System.out.println("Nemas dost bodov !");

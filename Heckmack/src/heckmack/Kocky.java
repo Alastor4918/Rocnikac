@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.BooleanArray;
 
 public class Kocky{
 	public Array<ButtonStyle> styl;
+	public Array<ButtonStyle> hlstyl;
 	public  Array<MyButton> hodeneKocky;
 	public  Array<MyButton> hracoveKocky;
 	public  BooleanArray pickedN;
@@ -24,6 +25,7 @@ public class Kocky{
 	public Kocky(Heckmeck g) {
 		game=g;
 		styl= new Array<ButtonStyle>();
+		hlstyl =  new Array<ButtonStyle>();
 		hracoveKocky=new Array<MyButton>();
 		sortedCubes = new LinkedList<Integer>();
 		
@@ -51,6 +53,7 @@ public class Kocky{
 	}
 	
 	public void shuffle(int x){
+		Boolean mam=false;
 		Random r= new Random();
 		int tempi=0;
 		for(int i=0;i<x;i++){
@@ -60,14 +63,24 @@ public class Kocky{
 		java.util.Collections.reverse(sortedCubes);
 		for(int i=0;i<x;i++){
 			hodeneKocky.get(i).setValue(sortedCubes.get(i));
+			for(MyButton y : hracoveKocky){
+				if(y.getValue()==hodeneKocky.get(i).getValue()){
+					mam=true;
+				}
+			}
+			if(mam){
 			hodeneKocky.get(i).setStyle(styl.get(sortedCubes.get(i)));
+			}else{
+				hodeneKocky.get(i).setStyle(hlstyl.get(sortedCubes.get(i)));			
+			}
+			mam=false;
 			tempi++;
 		}
 		sortedCubes.clear();
 		for(int i=tempi;i<8;i++){
 			hodeneKocky.get(i).setValue(0);
 			hodeneKocky.get(i).setStyle(styl.get(0));
-		}
+		}		
 	}
 	
 	private void playerDice(){
@@ -85,6 +98,7 @@ public class Kocky{
 		ChangeListener listener= new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
+				
 				if(!((MyButton)actor).isBlocked() && !pickedN.get(((MyButton)actor).getValue())){
 					int counter=0;
 					for(int i=0;i<hodeneKocky.size;i++){
@@ -96,6 +110,38 @@ public class Kocky{
 					game.board.hraci.get(game.board.onMove).addCubes(((MyButton)actor), counter);	
 					pickedN.set(((MyButton)actor).getValue(), true);
 					Drawman.hod.setVisible(true);
+					//highlight mensich rovnych
+					for(MyButton x : game.grill.grill){
+						if(x.getValue()<=game.board.hraci.get(game.board.onMove).getSum()){
+							if(!x.isDisabled()){
+							x.setStyle(game.grill.hlgrillStyle.get(x.getValue()-21));		
+							}
+						}else{
+							if(!x.isDisabled()){
+							x.setStyle(game.grill.grillStyle.get(x.getValue()-21));
+							}
+						}
+					}
+					//hightlight playerovych vrchnych kamenoch
+					for(Player x: game.board.hraci){
+						if(x.getTop().getValue()==game.board.hraci.get(game.board.onMove).getSum() && x.getID()!=game.board.onMove){
+							if(x.getTop().getValue()!=0){
+							x.getTop().setStyle(game.grill.hlgrillStyle.get(x.getTop().getValue()-21));
+							}
+						}else{
+							if(x.getTop().getValue()!=0){
+							x.getTop().setStyle(game.grill.grillStyle.get(x.getTop().getValue()-21));
+							}
+						}						
+					}
+					
+					for(int i=0;i<8;i++){
+						if(hracoveKocky.get(i).getValue()>0){
+							hracoveKocky.get(i).setStyle(styl.get(hracoveKocky.get(i).getValue()));
+						}
+					}
+					
+					
 					}
 				else{
 					System.out.println("NEMOZES");
@@ -128,7 +174,24 @@ public class Kocky{
 					buttonStyle.pressedOffsetX = 1;
 					buttonStyle.pressedOffsetY = -1;
 					styl.add(buttonStyle);
-				}
+ 				}
+				
+				cubesTextureAtlas = new TextureAtlas("cubes/hlcubes.pack");
+				buttonSkin = new Skin(cubesTextureAtlas);
+				for(int i=0;i<7;i++){
+					buttonStyle= new ButtonStyle();
+					buttonStyle.up= buttonSkin.getDrawable(Integer.toString(i));
+					buttonStyle.down= buttonSkin.getDrawable(Integer.toString(i));
+					buttonStyle.checked= buttonSkin.getDrawable(Integer.toString(i));
+					buttonStyle.pressedOffsetX = 1;
+					buttonStyle.pressedOffsetY = -1;
+					hlstyl.add(buttonStyle);
+ 				}
+				
+				
+	}
+	public void gethlStyl(){
+		
 	}
 		
 }
