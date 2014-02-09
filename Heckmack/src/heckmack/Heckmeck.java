@@ -28,6 +28,7 @@ public class Heckmeck extends Game{
 		//-----BASE-----------------
 		batch = new SpriteBatch();
 		font = new BitmapFont();
+		this.setScreen(new Intro(this));
 		
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 800, 480);

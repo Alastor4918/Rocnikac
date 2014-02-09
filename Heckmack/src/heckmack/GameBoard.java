@@ -21,7 +21,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.BooleanArray;
 
 public class GameBoard implements Screen{
-	GameStart game;
+	Heckmeck game;
 	Stage stage;
 	OrthographicCamera camera;
 	TextButton hod;
@@ -36,7 +36,7 @@ public class GameBoard implements Screen{
 	private int onMove;
 	
 	
-	public GameBoard(GameStart gam, int numP){
+	public GameBoard(Heckmeck gam, int numP){
 		//-----BASE-----------------
 		game=gam;
 		
@@ -55,7 +55,7 @@ public class GameBoard implements Screen{
 	    playersTopStones=new Array<MyButton>();
 	    hraci= new Array<Player>();
 	    for(int i=0;i<numP;i++){
-	    	hraci.add(new Player(this, i, i*145));
+	    	hraci.add(new Player(game, i, i*145));
 	    	playersTopStones.add(hraci.get(i).getTop());
 	    }
 	    //--------------HRACOVE KOCKY---------------

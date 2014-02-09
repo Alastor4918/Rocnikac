@@ -22,7 +22,6 @@ public class GameStart extends Game {
 	public void create() {
 		batch = new SpriteBatch();
 		font = new BitmapFont();
-		this.setScreen(new Intro(this));
 	}
 
 	public void render() {

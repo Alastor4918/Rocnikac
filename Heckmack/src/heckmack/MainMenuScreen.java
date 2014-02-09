@@ -55,9 +55,7 @@ public class MainMenuScreen implements Screen {
 	    ChangeListener cListener2 = new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-				game.board.pocetHracov=2;
-				game.board.preparePlayers();
-				game.setScreen(new PlayGround(game, game.stage));
+				game.setScreen(new SinglePlayerMenu(game));
 				dispose();		
 			}
 		    };
@@ -74,7 +72,8 @@ public class MainMenuScreen implements Screen {
 		ChangeListener cListener4 = new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-				System.out.println("wat");			
+				game.setScreen(new MultiPlayerMenu(game));
+				dispose();				
 			}
 		    };
 	TextButton button4= game.createButton("Multi Player", s, 50,150, cListener4);

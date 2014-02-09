@@ -27,7 +27,7 @@ public class EndingScreen implements Screen {
 		game.batch.end();
 		
 		if (Gdx.input.isTouched()) {
-			Gdx.app.exit();
+			game.setScreen(new MainMenuScreen(game));			
 			dispose();
 		}
 		

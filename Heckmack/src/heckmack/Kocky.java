@@ -1,6 +1,8 @@
 package heckmack;
 
+import java.util.LinkedList;
 import java.util.Random;
+
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -15,6 +17,7 @@ public class Kocky{
 	public  Array<MyButton> hodeneKocky;
 	public  Array<MyButton> hracoveKocky;
 	public  BooleanArray pickedN;
+	private LinkedList<Integer> sortedCubes;
 	Heckmeck game;
 	
 
@@ -22,6 +25,7 @@ public class Kocky{
 		game=g;
 		styl= new Array<ButtonStyle>();
 		hracoveKocky=new Array<MyButton>();
+		sortedCubes = new LinkedList<Integer>();
 		
 		//---------------TVORBA STYLOV KOCIEK-------------
 		getStyl();
@@ -48,15 +52,18 @@ public class Kocky{
 	
 	public void shuffle(int x){
 		Random r= new Random();
-		
 		int tempi=0;
 		for(int i=0;i<x;i++){
-			int temp= r.nextInt(6)+1;
-			hodeneKocky.get(i).setValue(temp);
-			hodeneKocky.get(i).setStyle(styl.get(temp));
+			sortedCubes.add(r.nextInt(6)+1);
+		}
+		java.util.Collections.sort(sortedCubes);
+		java.util.Collections.reverse(sortedCubes);
+		for(int i=0;i<x;i++){
+			hodeneKocky.get(i).setValue(sortedCubes.get(i));
+			hodeneKocky.get(i).setStyle(styl.get(sortedCubes.get(i)));
 			tempi++;
 		}
-		
+		sortedCubes.clear();
 		for(int i=tempi;i<8;i++){
 			hodeneKocky.get(i).setValue(0);
 			hodeneKocky.get(i).setStyle(styl.get(0));
