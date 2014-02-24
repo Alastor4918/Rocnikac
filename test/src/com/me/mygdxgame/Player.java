@@ -129,7 +129,8 @@ public class Player {
 							Drawman.roll.setVisible(true);
 							//premazanie highlightu
 							for(MyButton x : game.grill.grill){
-								x.setStyle(game.grill.grillStyle.get(x.getValue()-21));
+								if(!x.isDisabled())
+									x.setStyle(game.grill.grillStyle.get(x.getValue()-21));
 								}
 							for(Player x: game.board.hraci){
 								if(x.getTop().getValue()!=0){

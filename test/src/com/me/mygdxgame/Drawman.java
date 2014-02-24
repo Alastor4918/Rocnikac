@@ -18,10 +18,12 @@ public class Drawman {
 	TextButton skonci;
 	TextButtonStyle s;
 	TextButtonStyle h;
+	BitmapFont f;
 	public Drawman(Heckmeck g){
 		game=g;
 		s= game.getButtonStyle();
 		h= getButtonStyleH();
+		f= new BitmapFont();
 		//--------------BUTTON PRE HADZ A SKONCI-----------
 		getButtons();
 		
@@ -40,7 +42,6 @@ public void draw(){
 	Gdx.gl.glClearColor(0, 0.4f, 1, 1);
 	Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 	
-	BitmapFont f= new BitmapFont();
 	game.batch.begin();
 	f.draw(game.batch,"On move : "+ Integer.toString(game.board.onMove+1), 700, 440);
 	//f.draw(game.batch, "My top:", 700, 410);

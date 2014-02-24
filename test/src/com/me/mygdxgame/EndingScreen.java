@@ -23,7 +23,7 @@ public class EndingScreen implements Screen {
 		game.batch.begin();
 		Gdx.gl.glClearColor(0, 0.4f, 1, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		game.font.draw(game.batch, "Vyhral hrac cislo : "+(winner+1), 350, 240);
+		game.font.draw(game.batch, "Vyhral hrac cislo : "+(winner), 350, 240);
 		game.font.draw(game.batch, "S poctom cervikov : "+winnerPoints, 350, 220);
 		game.batch.end();
 		
@@ -79,6 +79,7 @@ public class EndingScreen implements Screen {
 			}
 		}
 		winnerPoints=max;
+		id++;
 		winner=Integer.toString(id);
 	}
 
